@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="node_modules/antd/dist/antd.min.css" >
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <title>Facet Tree Visualization</title>
+    <style>
+        pre {
+            white-space: pre-wrap;
+        }
+        .assemble {
+            border-bottom: 2px solid #666666;
+            max-height: 300px;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div style="display: inline">
+            <svg id="mysvg" width="600" height="800"></svg>
+        </div>
+        <div style="display: inline; position: absolute; margin: 20px;word-wrap: break-word;">
+            <span>分面: <span id="facet"></span></span>
+            <span style="padding-left: 16px;">碎片数量: <span id="assembleNumber"></span></span>
+            <div id="list" style="max-height: calc(100vh - 80px); overflow: auto; max-width: calc(100vw - 700px);">
+            </div>
+        </div>
+    </div>
+    <div id="topic-list" style="width: 600px">
+    </div>
+    <script type="text/javascript" src="./dist/bundle.js"></script>
+</body>
+
+</html>
