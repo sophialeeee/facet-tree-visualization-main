@@ -92,10 +92,10 @@ export function drawFacetPieChart(data: FacetChartData, dom: HTMLElement, fontSi
                 return "translate(" + arc.centroid(d) + ")";
             })
             .attr("text-anchor","middle")
-            .text((d, i) => {
+            // .text((d, i) => {
                 
-                return piedata[i].data["childrenNumber"];
-            })
+            //     return piedata[i].data["childrenNumber"];
+            // })
             .attr('fill', '#fff')
             .attr('font-size', 10 + 'px')
             .on('click', d => {
@@ -139,10 +139,10 @@ export function drawFacetPieChart(data: FacetChartData, dom: HTMLElement, fontSi
             //    return "translate(" + arc.centroid(d) + ")";
             //})
             .attr("text-anchor","middle")
-            .text((d, i) => {
+            // .text((d, i) => {
                 
-                return piedata[i].data["childrenNumber"];
-            })
+            //     return piedata[i].data["childrenNumber"];
+            // })
             .attr('fill', '#fff')
             .attr('font-size', 20 + 'px')
             .attr('vertical-align','middle')

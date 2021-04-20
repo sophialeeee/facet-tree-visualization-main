@@ -316,10 +316,10 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
                       .enter()
                       .append('text')
                       //.attr('font-size',d => d.fontSize + 'px')
-                      .attr('font-size',20 + 'px')//写死字号
+                      .attr('font-size',d => d.fontSize)//写死字号
                       .attr('x', d => d.x)
                       .attr('y', d => d.y)
-                      .text(d => d.text)
+                      //.text(d => d.text)
                       .attr('fill','#fff').style('cursor', 'pointer')
                       .on('click', (d, i) => {
                           const [prev, curr] = globalState.getValue().expandedFacetId.split(',');

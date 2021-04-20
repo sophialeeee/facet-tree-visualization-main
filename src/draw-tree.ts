@@ -281,10 +281,10 @@ export function drawTree(svg, data, clickFacet, clickBranch): void {
                       .data(treeData.texts_leaf)
                       .enter()
                       .append('text')
-                      .attr('font-size',20 + 'px')
+                      .attr('font-size', d =>d.fontSize)
                       .attr('x', d => d.x)
                       .attr('y', d => d.y)
-                      .text(d => d.text)
+                      .text(d => '')
                       .attr('fill','#fff').style('cursor', 'pointer')
                       .on('click', (d, i) => {
                           const [prev, curr] = globalState.getValue().expandedFacetId.split(',');

@@ -241,12 +241,23 @@ export function buildTree(data: TreeData, dom: HTMLElement): Tree {
                     result.leaves[0].r)
             );
         }
+        const fontSizew = 16 - 10 > maxFacetFontSize ? maxFacetFontSize : 16 - 4;
+        let fontSize = fontSizew;
+        const fontSizeh = result.branches[0].height/(result.branches[0].facetName.length+8);
+       
+        if (fontSizew > fontSizeh ){
+              fontSize = fontSizeh;
+        }
+        else{
+               fontSize = fontSizew;
+        }
+
 
         result.texts.push({
-            x: result.branches[0].x + 12,
+            x: result.branches[0].x + 9,
             y: result.branches[0].y + 8,
             text: result.branches[0].facetName,
-            fontSize: 20
+            fontSize: fontSize+5,
         });
 
         result.texts_leaf.push({
