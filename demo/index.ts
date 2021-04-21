@@ -10,7 +10,7 @@ async function clickFacet(facetId: number) {
 
     console.log("传入分面id,clickFacet调用",facetId);
     try {
-        const res = await axios.get('http://47.95.145.72:8084/facet/getFacetNameAndParentFacetNameByFacetId', {
+        const res = await axios.get('http://47.95.145.72:8083/facet/getFacetNameAndParentFacetNameByFacetId', {
             params: {
                 facetId,
             }
@@ -37,7 +37,7 @@ async function clickFacet(facetId: number) {
     let assembleNumber = 0;
 
     try {
-        const res = await axios.get('http://47.95.145.72:8084/assemble/getAssemblesByFacetId', {
+        const res = await axios.get('http://47.95.145.72:8083/assemble/getAssemblesByFacetId', {
             params: {
                 facetId: facetId,
             },
@@ -112,8 +112,10 @@ async function clickFacet(facetId: number) {
 // console.log('data',data);
 // drawTree(svg,data, clickFacet);
 
-drawTreeNumber(svg,data,clickFacet,clickBranch)
-
+drawTreeNumber(svg,data,clickFacet,clickBranch, clickBranchAdd)
+async function clickBranchAdd(){
+    console.log("zengjiahuidiao");
+}
 
 //drawTreeDel(svg,data,clickBranch)  
 // drawTree(svg,data, clickFacet ,clickBranch)
@@ -122,7 +124,7 @@ async function clickBranch(facetId: number) {
     
     console.log("传入分面id，clickBranch调用",facetId);
     try {
-        const res = await axios.get('http://zscl.xjtudlc.com:8084/facet/deleteFacetCompleteByFacetId', {
+        const res = await axios.get('http://zscl.xjtudlc.com:8083/facet/deleteFacetCompleteByFacetId', {
             params: {
                 facetId,
             }
