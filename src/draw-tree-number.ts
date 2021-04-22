@@ -43,7 +43,7 @@ function checkCloseMenu(occasion) {
     };
 }
 
-export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
+export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd): void {
                 emptyChildren(svg);
                 const canvas = d3.select(svg);
                 //@ts-ignore
@@ -83,11 +83,11 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
             
                     d3.select(document.getElementById('ListMenuFacet'))
                         .append('div')
-                        .attr('id', 'OptionDelete')
+                        .attr('id', 'optionDeleteFacet')
                         .style('height', '25px')
                         .style('margin-top', '10px')
                         .on('mouseover', function(){
-                            d3.select(document.getElementById('OptionDelete'))
+                            d3.select(document.getElementById('optionDeleteFacet'))
                                 .transition()
                                 .duration(300)
                                 .style("background", optionSelectedColor);
@@ -95,7 +95,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
             
                         })
                         .on('mouseout', function(){
-                            d3.select(document.getElementById('OptionDelete'))
+                            d3.select(document.getElementById('optionDeleteFacet'))
                                 .transition()
                                 .duration(300)
                                 .style("background", optionColor);
@@ -105,17 +105,17 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
                         .text("删除该主题");
                     d3.select(document.getElementById('ListMenuFacet'))
                         .append('div')
-                        .attr('id', 'OptionAdd')
+                        .attr('id', 'optionAddFacet')
                         .style('height', '25px')
                         .on('mouseover', function(){
-                            d3.select(document.getElementById('OptionAdd'))
+                            d3.select(document.getElementById('optionAddFacet'))
                                 .transition()
                                 .duration(300)
                                 .style("background", optionSelectedColor);
                             optionFacet = 'yes';
                         })
                         .on('mouseout', function(){
-                            d3.select(document.getElementById('OptionAdd'))
+                            d3.select(document.getElementById('optionAddFacet'))
                                 .transition()
                                 .duration(300)
                                 .style("background", optionColor);
@@ -293,6 +293,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
                     .attr('height', function (d) { return d.height })
                     .attr('width', function (d) { return d.width })
                     .attr('fill', function (d) { return d.color })
+                    .attr('cursor', 'pointer')
                     .on('mouseover', d => {
                 
                         // const divTooltip = document.getElementById('facet-tree-tooltip');
@@ -343,15 +344,29 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
                             .style("left", (d3.event.pageX + 20) + 'px')
                             .style("top", (d3.event.pageY + 20)+ 'px')
                             ;
-                        const OptionDelete = document.getElementById('OptionDelete');
-                        const OptionAdd = document.getElementById('OptionAdd');
+                        const optionDeleteFacet = document.getElementById('optionDeleteFacet');
+                        const optionAddFacet = document.getElementById('optionAddFacet');
                         // d3.select(document.getElementById('CompleteName')).html(topics[d.id]);
-                        OptionDelete.onclick = function (){
+                        optionDeleteFacet.onclick = function (){
                             // console.log(topics[d.id])
                             // console.log(d)
+                        const [prev, curr] = globalState.getValue().expandedFacetId.split(',');
+                        globalState.next(
+                            Object.assign(
+                                {},
+                                globalState.getValue(),
+                                {
+                                    branchFacetId: treeData.branches[i].facetId,
+                                    expandedFacetId: curr + ',-2',
+                                }
+                            )
+                        )
+                        console.log("branchFacetId",globalState.getValue().branchFacetId);
+                        console.log("expandedFacetId",globalState.getValue().expandedFacetId);
                             console.log("Use your FacetDelete function here!");
                         };
-                        OptionAdd.onclick = function (){
+                        optionAddFacet.onclick = function (){
+                            clickBranchAdd();
                             console.log("Use your FacetAdd function here!");
                         };
         
@@ -368,6 +383,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
                     .attr('height', function (d) { return d.height })
                     .attr('width', function (d) { return d.width })
                     .attr('fill', function (d) { return d.color })
+                    .attr('cursor', 'pointer')
                     .attr('transform', function (d) { return d.transform })
                     .on('mouseover', d => {
                 
@@ -424,15 +440,29 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
                             .style("left", (d3.event.pageX + 20) + 'px')
                             .style("top", (d3.event.pageY + 20)+ 'px')
                             ;
-                        const OptionDelete = document.getElementById('OptionDelete');
-                        const OptionAdd = document.getElementById('OptionAdd');
+                        const optionDeleteFacet = document.getElementById('optionDeleteFacet');
+                        const optionAddFacet = document.getElementById('optionAddFacet');
                         // d3.select(document.getElementById('CompleteName')).html(topics[d.id]);
-                        OptionDelete.onclick = function (){
+                        optionDeleteFacet.onclick = function (){
                             // console.log(topics[d.id])
                             // console.log(d)
+                        const [prev, curr] = globalState.getValue().expandedFacetId.split(',');
+                        globalState.next(
+                            Object.assign(
+                                {},
+                                globalState.getValue(),
+                                {
+                                    branchFacetId: treeData.branches[i].facetId,
+                                    expandedFacetId: curr + ',-2',
+                                }
+                            )
+                        )
+                        console.log("branchFacetId",globalState.getValue().branchFacetId);
+                        console.log("expandedFacetId",globalState.getValue().expandedFacetId);
                             console.log("Use your FacetDelete function here!");
                         };
-                        OptionAdd.onclick = function (){
+                        optionAddFacet.onclick = function (){
+                            clickBranchAdd();
                             console.log("Use your FacetAdd function here!");
                         };
         
@@ -490,8 +520,32 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
                                   }
                               )
                           )
-                      })
-                      .on('contextmenu', (d, i) => {
+                      });
+                      
+                
+                // draw second  layer facet
+                treeData.facetChart.forEach(element => {
+                    // 饼图
+                    
+                   
+                    drawFacetPieChart(element, svg);
+                    
+                    // 力导向图
+                    // drawFacetForceLayout(element, svg);
+                });
+                // draw first layer facet name
+                const texts = canvas.append('g')
+                    .selectAll('text')
+                    .data(treeData.texts)
+                    .enter()
+                    .append('text')
+                    .attr('font-family','Times New Roman')
+                    .attr('font-size', d => d.fontSize + 'px')
+                    .attr('x', d => d.x)
+                    .attr('y', d => d.y)
+                    .attr('fill', '#fff')
+                    .attr('cursor', 'pointer')
+                    .on('contextmenu', (d, i) => {
                         console.log("Test message!");
                         d3.event.preventDefault();
         
@@ -520,28 +574,6 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
         
                         checkCloseMenu(1);
                     });
-                
-                // draw second  layer facet
-                treeData.facetChart.forEach(element => {
-                    // 饼图
-                    
-                   
-                    drawFacetPieChart(element, svg);
-                    
-                    // 力导向图
-                    // drawFacetForceLayout(element, svg);
-                });
-                // draw first layer facet name
-                const texts = canvas.append('g')
-                    .selectAll('text')
-                    .data(treeData.texts)
-                    .enter()
-                    .append('text')
-                    .attr('font-family','Times New Roman')
-                    .attr('font-size', d => d.fontSize + 'px')
-                    .attr('x', d => d.x)
-                    .attr('y', d => d.y)
-                    .attr('fill', '#fff');
                 treeData.texts.forEach((element, index) => {
                     d3.select((texts as any)._groups[0][index])
                         .selectAll('tspan')
