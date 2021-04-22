@@ -293,6 +293,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                     .attr('height', function (d) { return d.height })
                     .attr('width', function (d) { return d.width })
                     .attr('fill', function (d) { return d.color })
+                    .attr('cursor', 'pointer')
                     .on('mouseover', d => {
                 
                         // const divTooltip = document.getElementById('facet-tree-tooltip');
@@ -382,6 +383,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                     .attr('height', function (d) { return d.height })
                     .attr('width', function (d) { return d.width })
                     .attr('fill', function (d) { return d.color })
+                    .attr('cursor', 'pointer')
                     .attr('transform', function (d) { return d.transform })
                     .on('mouseover', d => {
                 
@@ -541,7 +543,37 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                     .attr('font-size', d => d.fontSize + 'px')
                     .attr('x', d => d.x)
                     .attr('y', d => d.y)
-                    .attr('fill', '#fff');
+                    .attr('fill', '#fff')
+                    .attr('cursor', 'pointer')
+                    .on('contextmenu', (d, i) => {
+                        console.log("Test message!");
+                        d3.event.preventDefault();
+        
+                        selectFacet = i + 'select';
+        
+                        const ListMenuFacet = document.getElementById('ListMenuFacet');
+        
+                        d3.select(ListMenuFacet)
+                            .transition()
+                            // .duration(500)
+                            .style("opacity", .9)
+                            .style("left", (d3.event.pageX + 20) + 'px')
+                            .style("top", (d3.event.pageY + 20)+ 'px')
+                            ;
+                        const OptionDelete = document.getElementById('OptionDelete');
+                        const OptionAdd = document.getElementById('OptionAdd');
+                        // d3.select(document.getElementById('CompleteName')).html(topics[d.id]);
+                        OptionDelete.onclick = function (){
+                            // console.log(topics[d.id])
+                            // console.log(d)
+                            console.log("Use your FacetDelete function here!");
+                        };
+                        OptionAdd.onclick = function (){
+                            console.log("Use your FacetAdd function here!");
+                        };
+        
+                        checkCloseMenu(1);
+                    });
                 treeData.texts.forEach((element, index) => {
                     d3.select((texts as any)._groups[0][index])
                         .selectAll('tspan')
