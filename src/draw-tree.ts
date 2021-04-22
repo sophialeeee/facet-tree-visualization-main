@@ -524,6 +524,7 @@ export function drawTree(svg, data, clickFacet, clickBranch,clickBranchAdd,time)
                     .attr('font-size', d => d.fontSize + 'px')
                     .attr('x', d => d.x)
                     .attr('y', d => d.y)
+                    .attr('cursor', 'pointer')
                     .attr('fill', '#fff')
                     .on('contextmenu', (d, i) => {
                         console.log("Test message!");
