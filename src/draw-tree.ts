@@ -13,6 +13,8 @@ declare global {
     }
   }
 
+var useFacetEdit = 'yes';
+
 var selectFacet = '';
 var optionFacet = '';
 const optionColor = '#7B7B7B';
@@ -55,7 +57,7 @@ export function drawTree(svg, data, clickFacet, clickBranch,clickBranchAdd,time)
    
     totalData["children"] = [];
 
-    if (!document.getElementById('ListMenuFacet')) {
+    if (!document.getElementById('ListMenuFacet')  && useFacetEdit === 'yes') {
         d3.select('body').append('div')
             .attr('id', 'ListMenuFacet')
             .style('position', 'absolute')

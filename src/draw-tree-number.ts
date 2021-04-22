@@ -21,6 +21,8 @@ import {judgementStringLengthWithChinese} from './draw-tree'
     
 //     return totalData;
 // }
+var useFacetEdit = 'yes';
+
 var selectFacet = '';
 var optionFacet = '';
 const optionColor = '#7B7B7B';
@@ -60,7 +62,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                         .style('padding', '1px 3px');
                 }
                 
-                if (!document.getElementById('ListMenuFacet')) {
+                if (!document.getElementById('ListMenuFacet')  && useFacetEdit === 'yes') {
                     d3.select('body').append('div')
                         .attr('id', 'ListMenuFacet')
                         .style('position', 'absolute')
