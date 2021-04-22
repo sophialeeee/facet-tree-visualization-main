@@ -293,6 +293,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
                     .attr('height', function (d) { return d.height })
                     .attr('width', function (d) { return d.width })
                     .attr('fill', function (d) { return d.color })
+                    .attr('cursor', 'pointer')
                     .on('mouseover', d => {
                 
                         // const divTooltip = document.getElementById('facet-tree-tooltip');
@@ -368,6 +369,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
                     .attr('height', function (d) { return d.height })
                     .attr('width', function (d) { return d.width })
                     .attr('fill', function (d) { return d.color })
+                    .attr('cursor', 'pointer')
                     .attr('transform', function (d) { return d.transform })
                     .on('mouseover', d => {
                 
@@ -490,8 +492,31 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
                                   }
                               )
                           )
-                      })
-                      .on('contextmenu', (d, i) => {
+                      });
+                
+                // draw second  layer facet
+                treeData.facetChart.forEach(element => {
+                    // 饼图
+                    
+                   
+                    drawFacetPieChart(element, svg);
+                    
+                    // 力导向图
+                    // drawFacetForceLayout(element, svg);
+                });
+                // draw first layer facet name
+                const texts = canvas.append('g')
+                    .selectAll('text')
+                    .data(treeData.texts)
+                    .enter()
+                    .append('text')
+                    .attr('font-family','Times New Roman')
+                    .attr('font-size', d => d.fontSize + 'px')
+                    .attr('x', d => d.x)
+                    .attr('y', d => d.y)
+                    .attr('fill', '#fff')
+                    .attr('cursor', 'pointer')
+                    .on('contextmenu', (d, i) => {
                         console.log("Test message!");
                         d3.event.preventDefault();
         
@@ -520,28 +545,6 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch): void {
         
                         checkCloseMenu(1);
                     });
-                
-                // draw second  layer facet
-                treeData.facetChart.forEach(element => {
-                    // 饼图
-                    
-                   
-                    drawFacetPieChart(element, svg);
-                    
-                    // 力导向图
-                    // drawFacetForceLayout(element, svg);
-                });
-                // draw first layer facet name
-                const texts = canvas.append('g')
-                    .selectAll('text')
-                    .data(treeData.texts)
-                    .enter()
-                    .append('text')
-                    .attr('font-family','Times New Roman')
-                    .attr('font-size', d => d.fontSize + 'px')
-                    .attr('x', d => d.x)
-                    .attr('y', d => d.y)
-                    .attr('fill', '#fff');
                 treeData.texts.forEach((element, index) => {
                     d3.select((texts as any)._groups[0][index])
                         .selectAll('tspan')
