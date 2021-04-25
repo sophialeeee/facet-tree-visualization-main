@@ -364,6 +364,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                         console.log("branchFacetId",globalState.getValue().branchFacetId);
                         console.log("expandedFacetId",globalState.getValue().expandedFacetId);
                             console.log("Use your FacetDelete function here!");
+                            clickBranch();
                         };
                         optionAddFacet.onclick = function (){
                             clickBranchAdd();
@@ -460,6 +461,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                         console.log("branchFacetId",globalState.getValue().branchFacetId);
                         console.log("expandedFacetId",globalState.getValue().expandedFacetId);
                             console.log("Use your FacetDelete function here!");
+                            clickBranch();
                         };
                         optionAddFacet.onclick = function (){
                             clickBranchAdd();
@@ -474,7 +476,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                     .data(treeData.leaves)
                     .enter()
                     .append('circle')
-                    .attr('cx', (d) => d.cx)
+                    .attr('cx', d => d.cx)
                     .attr('cy', d => d.cy)
                     .attr('r', (d, i) => {
                         return treeData.treeData[i].containChildrenFacet ? 0 : d.r * 1.5;
@@ -566,9 +568,24 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                         OptionDelete.onclick = function (){
                             // console.log(topics[d.id])
                             // console.log(d)
+                        const [prev, curr] = globalState.getValue().expandedFacetId.split(',');
+                        globalState.next(
+                            Object.assign(
+                                {},
+                                globalState.getValue(),
+                                {
+                                    branchFacetId: treeData.branches[i].facetId,
+                                    expandedFacetId: curr + ',-2',
+                                }
+                            )
+                        )
+                        console.log("branchFacetId",globalState.getValue().branchFacetId);
+                        console.log("expandedFacetId",globalState.getValue().expandedFacetId);
                             console.log("Use your FacetDelete function here!");
+                            clickBranch();
                         };
                         OptionAdd.onclick = function (){
+                            clickBranchAdd();
                             console.log("Use your FacetAdd function here!");
                         };
         
