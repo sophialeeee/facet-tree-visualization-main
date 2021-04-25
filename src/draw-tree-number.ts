@@ -22,8 +22,6 @@ import {judgementStringLengthWithChinese} from './draw-tree'
 //     return totalData;
 // }
 
-var useFacetEdit = 'yes';
-
 var selectFacet = '';
 var optionFacet = '';
 var Target = 0;
@@ -34,9 +32,6 @@ const optionSelectedShadow = '2px 3px 2px #888888';
 
 export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd, FacetEdit): void {
                 emptyChildren(svg);
-                if (FacetEdit !== 'yes') {
-                    useFacetEdit = FacetEdit;
-                };
                 const canvas = d3.select(svg);
                 //@ts-ignore
                 const treeData = buildTree(data, svg);
@@ -105,19 +100,24 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                 }
                 
                 function onClickRight(i){
-                    d3.event.preventDefault();
-                    selectFacet = i + 'select';
-                    const ListMenuFacet = document.getElementById('ListMenuFacet');
-                    d3.select(ListMenuFacet)
-                        .transition()
-                        // .duration(300)
-                        .style("opacity", 1)
-                        .style("left", (d3.event.pageX + 20) + 'px')
-                        .style("top", (d3.event.pageY + 20)+ 'px');
-                    checkCloseMenu(1);
+                    if (FacetEdit === 'yes'){
+                        d3.event.preventDefault();
+                        selectFacet = i + 'select';
+                        const ListMenuFacet = document.getElementById('ListMenuFacet');
+                        d3.select(ListMenuFacet)
+                            .transition()
+                            // .duration(300)
+                            .style("opacity", 1)
+                            .style("left", (d3.event.pageX + 20) + 'px')
+                            .style("top", (d3.event.pageY + 20)+ 'px');
+                        checkCloseMenu(1);
+                    }else{
+                        console.log("不起作用！");
+                        d3.event.preventDefault();
+                    }
                 }
 
-                if (!document.getElementById('ListMenuFacet')  && useFacetEdit === 'yes') {
+                if (!document.getElementById('ListMenuFacet')) {
                     d3.select('body').append('div')
                         .attr('id', 'ListMenuFacet')
                         .style('position', 'absolute')
