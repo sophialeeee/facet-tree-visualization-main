@@ -21,32 +21,22 @@ import {judgementStringLengthWithChinese} from './draw-tree'
     
 //     return totalData;
 // }
+
 var useFacetEdit = 'yes';
 
 var selectFacet = '';
 var optionFacet = '';
-const optionColor = '#7B7B7B';
+var Target = 0;
+const optionColor = 'white'; //'#7B7B7B'
 const optionSelectedColor = '#ADADAD';
-const optionStrokeColor = '#3C3C3C';
+const optionShaow = '0px 0px 0px #888888';
+const optionSelectedShadow = '2px 3px 2px #888888';
 
-function checkCloseMenu(occasion) {
-    if (occasion === 1) {
-        var selectTemp = selectFacet;
-        setTimeout(function() {
-            if (!optionFacet && selectTemp === selectFacet){
-                
-                d3.select(document.getElementById("ListMenuFacet"))
-                    .transition().transition()
-                    .duration(500)
-                    .style("opacity", 0);
-                selectFacet = '';
-            }
-        }, 3000);
-    };
-}
-
-export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd): void {
+export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd, FacetEdit): void {
                 emptyChildren(svg);
+                if (FacetEdit !== 'yes') {
+                    useFacetEdit = FacetEdit;
+                };
                 const canvas = d3.select(svg);
                 //@ts-ignore
                 const treeData = buildTree(data, svg);
@@ -62,19 +52,85 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                         .style('padding', '1px 3px');
                 }
                 
+                function DeleteFacet(i){
+                    console.log("This is really convenient!");
+                        const [prev, curr] = globalState.getValue().expandedFacetId.split(',');
+                        globalState.next(
+                            Object.assign(
+                                {},
+                                globalState.getValue(),
+                                {
+                                    branchFacetId: treeData.branches[i].facetId,
+                                    expandedFacetId: curr + ',-2',
+                                }
+                            )
+                        )
+                        console.log("branchFacetId",globalState.getValue().branchFacetId);
+                        console.log("expandedFacetId",globalState.getValue().expandedFacetId);
+                        console.log("Use your FacetDelete function here!");
+                };
+
+                function checkCloseMenu(occasion) {
+                    if (occasion === 1) {
+                        var selectTemp = selectFacet;
+                        setTimeout(function() {
+                            if (!optionFacet && selectTemp === selectFacet){
+                                
+                                d3.select(document.getElementById("ListMenuFacet"))
+                                    .transition().transition()
+                                    .duration(500)
+                                    .style("opacity", 0);
+                                selectFacet = '';
+                            }
+                        }, 3000);
+                    };
+                }
+                
+                function onSelectOption(option){
+                    d3.select(option)
+                        .transition()
+                        .duration(300)
+                        // .style("background", optionSelectedColor);
+                        .style('font-weight', 'bold')
+                        .style('font-size', '14px');
+                    optionFacet = 'yes';
+                }
+                
+                function offSelectOption(option){
+                    d3.select(option)
+                        .transition()
+                        .duration(300)
+                        .style('font-weight', 'normal')
+                        .style('font-size', '12px');
+                }
+                
+                function onClickRight(i){
+                    d3.event.preventDefault();
+                    selectFacet = i + 'select';
+                    const ListMenuFacet = document.getElementById('ListMenuFacet');
+                    d3.select(ListMenuFacet)
+                        .transition()
+                        // .duration(300)
+                        .style("opacity", 1)
+                        .style("left", (d3.event.pageX + 20) + 'px')
+                        .style("top", (d3.event.pageY + 20)+ 'px');
+                    checkCloseMenu(1);
+                }
+
                 if (!document.getElementById('ListMenuFacet')  && useFacetEdit === 'yes') {
                     d3.select('body').append('div')
                         .attr('id', 'ListMenuFacet')
                         .style('position', 'absolute')
-                        .style('opacity', 0)
+                        .style('opacity', .0)
                         .style('text-align', 'center')
                         .style('font-size', '12px')
-                        .style('color', 'white')
+                        .style('color', 'black')
                         .style('padding', '5px 3px')
                         .style('width', '100px')
                         .style('height', '90px')
                         .style('background', optionColor)
-                        .style('border-radius', '6px')
+                        .style('border-radius', '10px')
+                        .style('border', '2px solid black')
                         .on('mouseover', function() {
                             optionFacet = 'yes';
                         })
@@ -88,45 +144,38 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                         .attr('id', 'optionDeleteFacet')
                         .style('height', '25px')
                         .style('margin-top', '10px')
+                        .style('border-radius', '10px')
+                        .style('cursor', 'pointer')
                         .on('mouseover', function(){
-                            d3.select(document.getElementById('optionDeleteFacet'))
-                                .transition()
-                                .duration(300)
-                                .style("background", optionSelectedColor);
-                            optionFacet = 'yes';
+                            onSelectOption(this);
             
                         })
                         .on('mouseout', function(){
-                            d3.select(document.getElementById('optionDeleteFacet'))
-                                .transition()
-                                .duration(300)
-                                .style("background", optionColor);
+                            offSelectOption(this);
+                        })
+                        .on('click', function(){
+                            DeleteFacet(Target);
                         })
                         
                         .style('padding-top', '5px')
-                        .text("删除该主题");
+                        .text("删除该分面");
                     d3.select(document.getElementById('ListMenuFacet'))
                         .append('div')
                         .attr('id', 'optionAddFacet')
                         .style('height', '25px')
+                        .style('margin-top', '5px')
+                        .style('border-radius', '15px')
+                        .style('cursor', 'pointer')
                         .on('mouseover', function(){
-                            d3.select(document.getElementById('optionAddFacet'))
-                                .transition()
-                                .duration(300)
-                                .style("background", optionSelectedColor);
-                            optionFacet = 'yes';
+                            onSelectOption(this);
                         })
                         .on('mouseout', function(){
-                            d3.select(document.getElementById('optionAddFacet'))
-                                .transition()
-                                .duration(300)
-                                .style("background", optionColor);
+                            offSelectOption(this);
                         })
                         .style('padding-top', '5px')
-                        .text("添加新主题")
+                        .text("添加新分面")
                         .on('click', function(){
-                            console.log("insert callback start");
-                            // insertTopic();
+                            clickBranchAdd();
                         });
                 }
                 // fix closure
@@ -332,47 +381,14 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                     //     )
                     // })
                     .on('contextmenu', (d, i) => {
-                        console.log("Test message!");
-                        d3.event.preventDefault();
-        
-                        selectFacet = i + 'select';
-        
-                        const ListMenuFacet = document.getElementById('ListMenuFacet');
-        
-                        d3.select(ListMenuFacet)
-                            .transition()
-                            // .duration(500)
-                            .style("opacity", .9)
-                            .style("left", (d3.event.pageX + 20) + 'px')
-                            .style("top", (d3.event.pageY + 20)+ 'px')
-                            ;
-                        const optionDeleteFacet = document.getElementById('optionDeleteFacet');
-                        const optionAddFacet = document.getElementById('optionAddFacet');
-                        // d3.select(document.getElementById('CompleteName')).html(topics[d.id]);
-                        optionDeleteFacet.onclick = function (){
-                            // console.log(topics[d.id])
-                            // console.log(d)
-                        const [prev, curr] = globalState.getValue().expandedFacetId.split(',');
-                        globalState.next(
-                            Object.assign(
-                                {},
-                                globalState.getValue(),
-                                {
-                                    branchFacetId: treeData.branches[i].facetId,
-                                    expandedFacetId: curr + ',-2',
-                                }
-                            )
-                        )
-                        console.log("branchFacetId",globalState.getValue().branchFacetId);
-                        console.log("expandedFacetId",globalState.getValue().expandedFacetId);
-                            console.log("Use your FacetDelete function here!");
-                        };
-                        optionAddFacet.onclick = function (){
-                            clickBranchAdd();
-                            console.log("Use your FacetAdd function here!");
-                        };
-        
-                        checkCloseMenu(1);
+                        onClickRight(i);
+                        // const optionDeleteFacet = document.getElementById('optionDeleteFacet');
+                        // const optionAddFacet = document.getElementById('optionAddFacet');
+                        Target = i;
+                        // optionAddFacet.onclick = function (){
+                        //     clickBranchAdd();
+                        //     console.log("Use your FacetAdd function here!");
+                        // };
                     });
                 // draw foldBranches
                 canvas.append('g')
@@ -408,67 +424,15 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                             .duration(500)
                             .style("opacity", 0);
                     })
-                    // .on('dblclick', (d, i) => {
-                    //     console.log("鼠标交互");
-                    //     const [prev, curr] = globalState.getValue().expandedFacetId.split(',');
-                    //     globalState.next(
-                    //         Object.assign(
-                    //             {},
-                    //             globalState.getValue(),
-                    //             {
-                    //                 branchFacetId: treeData.branches[i].facetId,
-                    //                 expandedFacetId: curr + ',-2',
-                    //             }
-                    //         )
-                    //     )
-                    //     //console.log("branchFacetId",globalState.getValue().branchFacetId);
-                    //     // console.log("expandedFacetId",globalState.getValue().expandedFacetId);
-                    //     // const branchId = globalState.getValue().currentFacetId;
-                    //     // clickBranch(branchId);
-
-                    // })
                     .on('contextmenu', (d, i) => {
-                        console.log("Test message!");
-                        d3.event.preventDefault();
-        
-                        selectFacet = i + 'select';
-        
-                        const ListMenuFacet = document.getElementById('ListMenuFacet');
-        
-                        d3.select(ListMenuFacet)
-                            .transition()
-                            // .duration(500)
-                            .style("opacity", .9)
-                            .style("left", (d3.event.pageX + 20) + 'px')
-                            .style("top", (d3.event.pageY + 20)+ 'px')
-                            ;
-                        const optionDeleteFacet = document.getElementById('optionDeleteFacet');
-                        const optionAddFacet = document.getElementById('optionAddFacet');
-                        // d3.select(document.getElementById('CompleteName')).html(topics[d.id]);
-                        optionDeleteFacet.onclick = function (){
-                            // console.log(topics[d.id])
-                            // console.log(d)
-                        const [prev, curr] = globalState.getValue().expandedFacetId.split(',');
-                        globalState.next(
-                            Object.assign(
-                                {},
-                                globalState.getValue(),
-                                {
-                                    branchFacetId: treeData.branches[i].facetId,
-                                    expandedFacetId: curr + ',-2',
-                                }
-                            )
-                        )
-                        console.log("branchFacetId",globalState.getValue().branchFacetId);
-                        console.log("expandedFacetId",globalState.getValue().expandedFacetId);
-                            console.log("Use your FacetDelete function here!");
-                        };
-                        optionAddFacet.onclick = function (){
-                            clickBranchAdd();
-                            console.log("Use your FacetAdd function here!");
-                        };
-        
-                        checkCloseMenu(1);
+                        onClickRight(i);
+                        // const optionDeleteFacet = document.getElementById('optionDeleteFacet');
+                        // const optionAddFacet = document.getElementById('optionAddFacet');
+                        Target = i;
+                        // optionAddFacet.onclick = function (){
+                        //     clickBranchAdd();
+                        //     console.log("Use your FacetAdd function here!");
+                        // };
                     });
                 // draw first layer facet    
                 canvas.append('g')
@@ -548,33 +512,17 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd)
                     .attr('fill', '#fff')
                     .attr('cursor', 'pointer')
                     .on('contextmenu', (d, i) => {
-                        console.log("Test message!");
-                        d3.event.preventDefault();
-        
-                        selectFacet = i + 'select';
-        
-                        const ListMenuFacet = document.getElementById('ListMenuFacet');
-        
-                        d3.select(ListMenuFacet)
-                            .transition()
-                            // .duration(500)
-                            .style("opacity", .9)
-                            .style("left", (d3.event.pageX + 20) + 'px')
-                            .style("top", (d3.event.pageY + 20)+ 'px')
-                            ;
-                        const OptionDelete = document.getElementById('OptionDelete');
-                        const OptionAdd = document.getElementById('OptionAdd');
+                        onClickRight(i);
+                        Target = i;
+                        // const OptionDelete = document.getElementById('OptionDelete');
+                        // const OptionAdd = document.getElementById('OptionAdd');
                         // d3.select(document.getElementById('CompleteName')).html(topics[d.id]);
-                        OptionDelete.onclick = function (){
-                            // console.log(topics[d.id])
-                            // console.log(d)
-                            console.log("Use your FacetDelete function here!");
-                        };
-                        OptionAdd.onclick = function (){
-                            console.log("Use your FacetAdd function here!");
-                        };
-        
-                        checkCloseMenu(1);
+                        // OptionDelete.onclick = function (){
+                        //     console.log("Use your FacetDelete function here!");
+                        // };
+                        // OptionAdd.onclick = function (){
+                        //     console.log("Use your FacetAdd function here!");
+                        // };
                     });
                 treeData.texts.forEach((element, index) => {
                     d3.select((texts as any)._groups[0][index])

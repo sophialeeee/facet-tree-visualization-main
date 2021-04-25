@@ -13,7 +13,7 @@ declare global {
     }
   }
 
-var useFacetEdit = 'yes';
+var useFacetEdit = 'no';
 
 var selectFacet = '';
 var optionFacet = '';
