@@ -30,6 +30,7 @@ const optionSelectedColor = '#ADADAD';
 const optionShaow = '0px 0px 0px #888888';
 const optionSelectedShadow = '2px 3px 2px #888888';
 
+
 export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd, FacetEdit): void {
                 emptyChildren(svg);
                 const canvas = d3.select(svg);
@@ -46,7 +47,15 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         .style('background-color', '#ffffb8')
                         .style('padding', '1px 3px');
                 }
-                
+                var FacetMenuNotionLeft = svg.getBoundingClientRect().left + svg.getBoundingClientRect().width / 2 - 75
+                var FacetMenuNotionTop = svg.getBoundingClientRect().bottom
+                if (document.getElementById('MenuNotion').getBoundingClientRect().left){
+                    FacetMenuNotionLeft = document.getElementById('MenuNotion').getBoundingClientRect().left + 10
+                    FacetMenuNotionTop = document.getElementById('MenuNotion').getBoundingClientRect().top + 5
+                }
+                if (document.getElementById('MenuNotion')){
+                    console.log('TestMenuNotionPlace', document.getElementById('MenuNotion').getBoundingClientRect().left);
+                }
                 function DeleteFacet(i){
                     console.log("This is really convenient!");
                         const [prev, curr] = globalState.getValue().expandedFacetId.split(',');
@@ -99,7 +108,29 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         .style('font-weight', 'normal')
                         .style('font-size', '12px');
                 }
-                
+
+                function onSelectObject(){
+                    if (FacetEdit === 'yes'){
+                        if (document.getElementById('MenuNotion').getBoundingClientRect().left){
+                            FacetMenuNotionLeft = document.getElementById('MenuNotion').getBoundingClientRect().left + 10
+                            FacetMenuNotionTop = document.getElementById('MenuNotion').getBoundingClientRect().top + 5
+                        }
+                        d3.select(document.getElementById('FacetMenuNotion'))
+                        .style("left", FacetMenuNotionLeft + 'px')
+                        .style("top", FacetMenuNotionTop + 'px');
+                        d3.select(document.getElementById('FacetMenuNotion'))
+                            .transition()
+                            .duration(400)
+                            .style('opacity', 1);
+                    }
+                }
+            
+                function offSelectObject(){
+                        d3.select(document.getElementById('FacetMenuNotion'))
+                            .transition()
+                            .duration(300)
+                            .style('opacity', 0);
+                }
                 function onClickRight(i){
                     if (FacetEdit === 'yes'){
                         d3.event.preventDefault();
@@ -117,7 +148,8 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         d3.event.preventDefault();
                     }
                 }
-
+ 
+                
                 if (!document.getElementById('ListMenuFacet')) {
                     d3.select('body').append('div')
                         .attr('id', 'ListMenuFacet')
@@ -178,6 +210,27 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         .on('click', function(){
                             clickBranchAdd();
                         });
+                }
+
+
+                if (!document.getElementById('FacetMenuNotion')) {
+                    d3.select('body').append('div')
+                        .attr('id', 'FacetMenuNotion')
+                        .style('position', 'absolute')
+                        .style('opacity', 0)
+                        .style('text-align', 'center')
+                        .style('font-size', '10px')
+                        .style('color', '#7B7B7B')
+                        .style('padding', '4px')
+                        .style('width', '150px')
+                        .style('height', '30px')
+                        .style('background', optionColor)
+                        .style('border-radius', '20px')
+                        .style('border', '2px solid #9D9D9D')
+                        .style("left", FacetMenuNotionLeft + 'px')
+                        .style("top", FacetMenuNotionTop + 'px')
+                        .text("鼠标右键显示菜单!")
+                        ;
                 }
                 // fix closure
                 // globalData.treeData = treeData;
@@ -355,6 +408,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         // d3.select(divTooltip).html("双击删除该分面")
                         //     .style("left", (d3.event.pageX) + "px")
                         //     .style("top", (d3.event.pageY - 28) + "px");
+                        onSelectObject();
                         if (selectFacet === ''){
                             d3.select(document.getElementById('ListMenuFacet'))
                             .style("left", (d3.event.pageX + 20) + 'px')
@@ -362,6 +416,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         };
                     })
                     .on("mouseout", function (d) {
+                        offSelectObject();
                         const divTooltip = document.getElementById('facet-tree-tooltip');
                         d3.select(divTooltip).transition().transition()
                             .duration(500)
@@ -413,6 +468,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         // d3.select(divTooltip).html("双击删除该分面")
                         //     .style("left", (d3.event.pageX) + "px")
                         //     .style("top", (d3.event.pageY - 28) + "px");
+                        onSelectObject();
                         if (selectFacet === ''){
                             d3.select(document.getElementById('ListMenuFacet'))
                             .style("left", (d3.event.pageX + 20) + 'px')
@@ -420,6 +476,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         };
                     })
                     .on("mouseout", function (d) {
+                        offSelectObject();
                         const divTooltip = document.getElementById('facet-tree-tooltip');
                         d3.select(divTooltip).transition().transition()
                             .duration(500)
@@ -512,6 +569,12 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                     .attr('y', d => d.y)
                     .attr('fill', '#fff')
                     .attr('cursor', 'pointer')
+                    .on('mouseover', function(){
+                        onSelectObject();
+                    })
+                    .on('mouseout', function(){
+                        offSelectObject();
+                    })
                     .on('contextmenu', (d, i) => {
                         onClickRight(i);
                         Target = i;
