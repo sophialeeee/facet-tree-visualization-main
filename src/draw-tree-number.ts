@@ -62,13 +62,19 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                 }
                 var FacetMenuNotionLeft = svg.getBoundingClientRect().left + svg.getBoundingClientRect().width / 2 - 75
                 var FacetMenuNotionTop = svg.getBoundingClientRect().bottom
-                if (document.getElementById('MenuNotion')){
-                    FacetMenuNotionLeft = document.getElementById('MenuNotion').getBoundingClientRect().left + 10
-                    FacetMenuNotionTop = document.getElementById('MenuNotion').getBoundingClientRect().top + 5
+                if (['facet-tree'].indexOf(FacetMenuDisplay) >= 0){
+                    FacetMenuNotionLeft = svg.getBoundingClientRect().left + 10
+                    FacetMenuNotionTop = svg.getBoundingClientRect().top + 5
                 }
-                if (document.getElementById('MenuNotion')){
-                    console.log('TestMenuNotionPlace', document.getElementById('MenuNotion').getBoundingClientRect().left);
+                if (['knowlege-forest'].indexOf(FacetMenuDisplay) >= 0){
+                    if (document.getElementById('MenuNotion')){
+                        FacetMenuNotionLeft = document.getElementById('MenuNotion').getBoundingClientRect().left
+                        FacetMenuNotionTop = document.getElementById('MenuNotion').getBoundingClientRect().top
+                    }
                 }
+                // if (document.getElementById('MenuNotion')){
+                //     console.log('TestMenuNotionPlace', document.getElementById('MenuNotion').getBoundingClientRect().left);
+                // }
                 function DeleteFacet(i){
                     console.log("This is really convenient!");
                         const [prev, curr] = globalState.getValue().expandedFacetId.split(',');
@@ -236,7 +242,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                 }
 
 
-                if (!document.getElementById('FacetMenuNotion')) {
+                if (!document.getElementById('FacetMenuNotion') && ['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0) {
                     d3.select('body').append('div')
                         .attr('id', 'FacetMenuNotion')
                         .style('position', 'absolute')
