@@ -7,6 +7,9 @@ import { drawFacetPieChart } from './facet-pie-chart';
 import { drawFacetForceLayout } from './facet-force-layout';
 import { globalState, globalData } from './state';
 import { emptyChildren } from './tools/utils';
+import {message} from 'antd';
+// import {Message} from "element-ui";
+
 declare global {
     interface Window {
       lock: boolean
@@ -608,8 +611,9 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
                   
 
                 if (i+1===data["children"].length){
+                    // message.success()
                     setTimeout(()=>{
-                        alert('当前页面构建完成！');
+                        alert('当前页面构建完成！')
                         window.lock = false;
                     },100)
                 }
