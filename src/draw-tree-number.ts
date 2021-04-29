@@ -65,6 +65,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                 if (['facet-tree'].indexOf(FacetMenuDisplay) >= 0){
                     FacetMenuNotionLeft = svg.getBoundingClientRect().left + 10
                     FacetMenuNotionTop = svg.getBoundingClientRect().top + 5
+                    console.log('!!!!!!!!!!!!!!!!!!', svg.getBoundingClientRect().left + 10)
                 }
                 if (['knowlege-forest'].indexOf(FacetMenuDisplay) >= 0){
                     if (document.getElementById('MenuNotion')){
@@ -179,7 +180,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         d3.select(document.getElementById('FacetMenuNotion')).remove()
                 }
                 
-                if (!document.getElementById('ListMenuFacet') && ['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0 ) {
+                if (!document.getElementById('ListMenuFacet') && ['knowledge-forest'].indexOf(FacetMenuDisplay) >= 0 ) {
                     d3.select('body').append('div')
                         .attr('id', 'ListMenuFacet')
                         .style('position', 'absolute')

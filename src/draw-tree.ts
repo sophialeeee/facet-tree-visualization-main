@@ -64,6 +64,7 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
     if (['facet-tree'].indexOf(FacetMenuDisplay) >= 0){
         FacetMenuNotionLeft = svg.getBoundingClientRect().left + 10
         FacetMenuNotionTop = svg.getBoundingClientRect().top + 5
+        console.log('!!!!!!!!!!!!!!!!!!', svg.getBoundingClientRect().left + 10)
     }
     if (['knowlege-forest'].indexOf(FacetMenuDisplay) >= 0){
         if (document.getElementById('MenuNotion')){
@@ -239,7 +240,7 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
                 clickBranchAdd();
             });
     }
-    if (!document.getElementById('FacetMenuNotion') && ['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0) {
+    if (!document.getElementById('FacetMenuNotion') && ['knowledge-forest'].indexOf(FacetMenuDisplay) >= 0) {
         d3.select('body').append('div')
             .attr('id', 'FacetMenuNotion')
             .style('position', 'absolute')
