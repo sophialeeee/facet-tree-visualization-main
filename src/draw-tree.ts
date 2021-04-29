@@ -36,13 +36,25 @@ function appendData(totalData,data,i){
 }
 
 
-export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, FacetEdit, time): void {
+export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, FacetMenuDisplay, time): void {
     
     let totalData={};
    
     totalData["children"] = [];
     emptyChildren(svg);
     const canvas = d3.select(svg);
+    canvas
+    .on('click', function (){
+        if (['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0){
+            d3.select(document.getElementById("ListMenuFacet"))
+                .transition().transition()
+                .duration(300)
+                // .style('width', '0px')
+                // .style('height', '0px')
+                .style("opacity", 0);
+            selectFacet = '';
+        }
+    });
     //@ts-ignore
     const treeData = buildTree(data, svg);
     console.log("传入数据",treeData);
@@ -80,7 +92,7 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
                     
                     d3.select(document.getElementById("ListMenuFacet"))
                         .transition().transition()
-                        .duration(500)
+                        .duration(300)
                         .style("opacity", 0);
                     selectFacet = '';
                 }
@@ -107,7 +119,7 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
     }
 
     function onSelectObject(){
-        if (FacetEdit === 'yes'){
+        if (['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0){
             if (document.getElementById('MenuNotion')){
                 FacetMenuNotionLeft = document.getElementById('MenuNotion').getBoundingClientRect().left + 10
                 FacetMenuNotionTop = document.getElementById('MenuNotion').getBoundingClientRect().top + 5
@@ -130,7 +142,7 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
     }
     
     function onClickRight(i){
-        if (FacetEdit === 'yes'){
+        if (['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0){
             d3.event.preventDefault();
             selectFacet = i + 'select';
             const ListMenuFacet = document.getElementById('ListMenuFacet');
@@ -149,67 +161,67 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
 
 
 
-    if (!document.getElementById('ListMenuFacet')) {
-                    d3.select('body').append('div')
-                        .attr('id', 'ListMenuFacet')
-                        .style('position', 'absolute')
-                        .style('opacity', .0)
-                        .style('text-align', 'center')
-                        .style('font-size', '12px')
-                        .style('color', 'black')
-                        .style('padding', '5px 3px')
-                        .style('width', '100px')
-                        .style('height', '90px')
-                        .style('background', optionColor)
-                        .style('border-radius', '10px')
-                        .style('border', '2px solid black')
-                        .on('mouseover', function() {
-                            optionFacet = 'yes';
-                        })
-                        .on('mouseout', function() {
-                            optionFacet = '';
-                            checkCloseMenu(1);
-                        });
+    if (!document.getElementById('ListMenuFacet') && ['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0 ) {
+        d3.select('body').append('div')
+            .attr('id', 'ListMenuFacet')
+            .style('position', 'absolute')
+            .style('opacity', 0)
+            .style('text-align', 'center')
+            .style('font-size', '12px')
+            .style('color', 'black')
+            // .style('padding', '5px')
+            .style('width', '100px')
+            .style('height', '85px')
+            .style('background', optionColor)
+            .style('border-radius', '10px')
+            .style('border', '2px solid black')
+            .on('mouseover', function() {
+                optionFacet = 'yes';
+            })
+            .on('mouseout', function() {
+                optionFacet = '';
+                checkCloseMenu(1);
+            });
             
-                    d3.select(document.getElementById('ListMenuFacet'))
-                        .append('div')
-                        .attr('id', 'optionDeleteFacet')
-                        .style('height', '25px')
-                        .style('margin-top', '10px')
-                        .style('border-radius', '10px')
-                        .style('cursor', 'pointer')
-                        .on('mouseover', function(){
-                            onSelectOption(this);
+        d3.select(document.getElementById('ListMenuFacet'))
+            .append('div')
+            .attr('id', 'optionDeleteFacet')
+            .style('height', '25px')
+            .style('margin-top', '10px')
+            .style('border-radius', '10px')
+            .style('cursor', 'pointer')
+            .on('mouseover', function(){
+                onSelectOption(this);
+
+            })
+            .on('mouseout', function(){
+                offSelectOption(this);
+            })
+            .on('click', function(){
+                DeleteFacet(Target);
+            })
             
-                        })
-                        .on('mouseout', function(){
-                            offSelectOption(this);
-                        })
-                        .on('click', function(){
-                            DeleteFacet(Target);
-                        })
-                        
-                        .style('padding-top', '5px')
-                        .text("删除该分面");
-                    d3.select(document.getElementById('ListMenuFacet'))
-                        .append('div')
-                        .attr('id', 'optionAddFacet')
-                        .style('height', '25px')
-                        .style('margin-top', '5px')
-                        .style('border-radius', '15px')
-                        .style('cursor', 'pointer')
-                        .on('mouseover', function(){
-                            onSelectOption(this);
-                        })
-                        .on('mouseout', function(){
-                            offSelectOption(this);
-                        })
-                        .style('padding-top', '5px')
-                        .text("添加新分面")
-                        .on('click', function(){
-                            clickBranchAdd();
-                        });
-                }
+            .style('padding-top', '5px')
+            .text("删除该分面");
+        d3.select(document.getElementById('ListMenuFacet'))
+            .append('div')
+            .attr('id', 'optionAddFacet')
+            .style('height', '25px')
+            .style('margin-top', '5px')
+            .style('border-radius', '15px')
+            .style('cursor', 'pointer')
+            .on('mouseover', function(){
+                onSelectOption(this);
+            })
+            .on('mouseout', function(){
+                offSelectOption(this);
+            })
+            .style('padding-top', '5px')
+            .text("添加新分面")
+            .on('click', function(){
+                clickBranchAdd();
+            });
+    }
     if (!document.getElementById('FacetMenuNotion')) {
         d3.select('body').append('div')
             .attr('id', 'FacetMenuNotion')

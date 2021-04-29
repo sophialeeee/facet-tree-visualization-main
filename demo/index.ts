@@ -112,7 +112,7 @@ async function clickFacet(facetId: number) {
 // console.log('data',data);
 // drawTree(svg,data, clickFacet);
 
-drawTreeNumber(svg,data,clickFacet,clickBranch, clickBranchAdd, 'yes')
+drawTreeNumber(svg,data,clickFacet,clickBranch, clickBranchAdd, 'facet-tree')
 async function clickBranchAdd(){
     console.log("zengjiahuidiao");
 }
