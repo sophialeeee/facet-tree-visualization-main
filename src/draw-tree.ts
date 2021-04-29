@@ -168,17 +168,17 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
         }
     }
 
-    if (document.getElementById('ListMenuFacet')){
-            d3.select(document.getElementById('ListMenuFacet')).remove()
-    }
-    if (document.getElementById('optionDeleteFacet')){
-        d3.select(document.getElementById('optionDeleteFacet')).remove()
-    }
-    if (document.getElementById('optionAddFacet')){
-        d3.select(document.getElementById('optionAddFacet')).remove()
-    }
-    if (document.getElementById('FacetMenuNotion')){
-            d3.select(document.getElementById('FacetMenuNotion')).remove()
+if(document.getElementById('ListMenuFacet')){
+    d3.select(document.getElementById('ListMenuFacet')).remove()
+}
+if(document.getElementById('optionDeleteFacet')){
+d3.select(document.getElementById('optionDeleteFacet')).remove()
+}
+if(document.getElementById('optionAddFacet')){
+d3.select(document.getElementById('optionAddFacet')).remove()
+}
+if(document.getElementById('FacetMenuNotion')){
+  d3.select(document.getElementById('FacetMenuNotion')).remove()
     }
 
     if (!document.getElementById('ListMenuFacet') && ['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0 ) {
@@ -617,9 +617,13 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
                   
 
                 if (i+1===data["children"].length){
-                    // message.success()
+
                     setTimeout(()=>{
-                        alert('当前页面构建完成！')
+                        // alert('当前页面构建完成！')
+                        message.config({
+                            duration: 2,
+                        });
+                        message.success('当前页面构建完成！',2)
                         window.lock = false;
                     },100)
                 }
