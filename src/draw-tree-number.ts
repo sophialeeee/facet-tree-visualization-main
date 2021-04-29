@@ -161,7 +161,9 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                     }
                 }
  
-                
+                if (document.getElementById('ListMenuFacet')){
+                    d3.select(document.getElementById('ListMenuFacet')).remove()
+                }
                 if (!document.getElementById('ListMenuFacet') && ['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0 ) {
                     d3.select('body').append('div')
                         .attr('id', 'ListMenuFacet')
@@ -224,7 +226,9 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         });
                 }
 
-
+                if (document.getElementById('FacetMenuNotion')){
+                    d3.select(document.getElementById('FacetMenuNotion')).remove()
+                }
                 if (!document.getElementById('FacetMenuNotion')) {
                     d3.select('body').append('div')
                         .attr('id', 'FacetMenuNotion')
