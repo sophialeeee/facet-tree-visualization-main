@@ -49,7 +49,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                 }
                 var FacetMenuNotionLeft = svg.getBoundingClientRect().left + svg.getBoundingClientRect().width / 2 - 75
                 var FacetMenuNotionTop = svg.getBoundingClientRect().bottom
-                if (document.getElementById('MenuNotion').getBoundingClientRect().left){
+                if (document.getElementById('MenuNotion')){
                     FacetMenuNotionLeft = document.getElementById('MenuNotion').getBoundingClientRect().left + 10
                     FacetMenuNotionTop = document.getElementById('MenuNotion').getBoundingClientRect().top + 5
                 }
@@ -111,7 +111,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
 
                 function onSelectObject(){
                     if (FacetEdit === 'yes'){
-                        if (document.getElementById('MenuNotion').getBoundingClientRect().left){
+                        if (document.getElementById('MenuNotion')){
                             FacetMenuNotionLeft = document.getElementById('MenuNotion').getBoundingClientRect().left + 10
                             FacetMenuNotionTop = document.getElementById('MenuNotion').getBoundingClientRect().top + 5
                         }
