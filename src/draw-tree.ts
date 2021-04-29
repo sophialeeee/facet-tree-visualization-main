@@ -56,6 +56,10 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
                 // .style('height', '0px')
                 .style("opacity", 0);
             selectFacet = '';
+            setTimeout(function(){
+                d3.select(document.getElementById("ListMenuFacet"))
+                .style('display', 'none');
+            },500)
         }
     });
     //@ts-ignore
@@ -67,7 +71,7 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
     if (['facet-tree'].indexOf(FacetMenuDisplay) >= 0){
         FacetMenuNotionLeft = svg.getBoundingClientRect().left + 10
         FacetMenuNotionTop = svg.getBoundingClientRect().top + 5
-        console.log('!!!!!!!!!!!!!!!!!!', svg.getBoundingClientRect().left + 10)
+        // console.log('!!!!!!!!!!!!!!!!!!', svg.getBoundingClientRect().left + 10)
     }
     if (['knowlege-forest'].indexOf(FacetMenuDisplay) >= 0){
         if (document.getElementById('MenuNotion')){
@@ -105,6 +109,10 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
                         .duration(300)
                         .style("opacity", 0);
                     selectFacet = '';
+                    setTimeout(function(){
+                        d3.select(document.getElementById("ListMenuFacet"))
+                        .style('display', 'none');
+                    },400)
                 }
             }, 3000);
         };
@@ -156,6 +164,8 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
             d3.event.preventDefault();
             selectFacet = i + 'select';
             const ListMenuFacet = document.getElementById('ListMenuFacet');
+            d3.select(ListMenuFacet)
+            .style('display', 'block');
             d3.select(ListMenuFacet)
                 .transition()
                 // .duration(300)
