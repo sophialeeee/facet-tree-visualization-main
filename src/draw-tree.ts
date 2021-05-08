@@ -630,11 +630,11 @@ if(document.getElementById('FacetMenuNotion')){
                 if (i+1===data["children"].length){
 
                     setTimeout(()=>{
-                        // alert('当前页面构建完成！')
-                        message.config({
-                            duration: 2,
-                        });
-                        message.success('当前页面构建完成！',2)
+                        alert('当前页面构建完成！')
+                        // message.config({
+                        //     duration: 2,
+                        // });
+                        // message.success('当前页面构建完成！',2)
                         window.lock = false;
                     },100)
                 }
