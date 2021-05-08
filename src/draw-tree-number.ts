@@ -96,6 +96,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         console.log("branchFacetId",globalState.getValue().branchFacetId);
                         console.log("expandedFacetId",globalState.getValue().expandedFacetId);
                         console.log("Use your FacetDelete function here!");
+                        clickBranch();
                 };
 
                 function checkCloseMenu(occasion) {
@@ -538,7 +539,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                     .data(treeData.leaves)
                     .enter()
                     .append('circle')
-                    .attr('cx', (d) => d.cx)
+                    .attr('cx', d => d.cx)
                     .attr('cy', d => d.cy)
                     .attr('r', (d, i) => {
                         return treeData.treeData[i].containChildrenFacet ? 0 : d.r * 1.5;

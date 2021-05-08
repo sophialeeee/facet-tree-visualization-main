@@ -39,7 +39,7 @@ function appendData(totalData,data,i){
 }
 
 
-export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, FacetMenuDisplay, time): void {
+export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, FacetMenuDisplay, time ,alertFlag): void {
     
     let totalData={};
    
@@ -627,10 +627,20 @@ if(document.getElementById('FacetMenuNotion')){
 
                   
 
-                if (i+1===data["children"].length){
+                if (i+1===data["children"].length&&alertFlag ===true){
 
                     setTimeout(()=>{
                         alert('当前页面构建完成！')
+                        // message.config({
+                        //     duration: 2,
+                        // });
+                        // message.success('当前页面构建完成！',2)
+                        window.lock = false;
+                    },100)
+                }
+                else if (i+1===data["children"].length&&alertFlag ===false){
+                    setTimeout(()=>{
+                        // alert('当前页面构建完成！')
                         // message.config({
                         //     duration: 2,
                         // });
