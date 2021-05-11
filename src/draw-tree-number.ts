@@ -34,7 +34,7 @@ const optionSelectedShadow = '2px 3px 2px #888888';
 export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd, FacetMenuDisplay): void {
                 emptyChildren(svg);
                 const canvas = d3.select(svg);
-
+                console.log("话术了",clickFacet,clickBranch,clickBranchAdd,FacetMenuDisplay);
                 canvas
                 .on('click', function (){
                     if (['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0){
