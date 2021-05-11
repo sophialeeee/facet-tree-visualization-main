@@ -2,12 +2,19 @@
 
 ## Input and output
 - Input: Hierarchical data of a topic
+
+drawTree函数中：
 1. `svg` 画树的svg
 2. `data` 画树的数据
 3. `FacetMenuDisplay` 是否弹出菜单及菜单内容
 4. `time` 动态画树间隔时间
 5. `alertFlag` 构建完成是否弹窗
 
+drawtreeNumber函数中：
+1. `svg` 画树的svg
+2. `data` 画树的数据
+3. `FacetMenuDisplay` 是否弹出菜单及菜单内容
+画树数据如下：
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0511/191449_588c770b_8849316.png "屏幕截图.png")
 - Output: Data is visualized as a faceted tree
 
