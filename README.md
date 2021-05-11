@@ -35,6 +35,9 @@
 12. `branchWidthRate`
 13. `firstLayerThreshold`
 14. `secondLayerThreshold`
+15. `FacetMenuDisplay` 是否弹出菜单及菜单内容
+16. `time` 动态画树间隔时间
+17. `alertFlag` 构建完成是否弹窗
 
 - 函数
 
