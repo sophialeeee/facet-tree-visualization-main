@@ -80,6 +80,19 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
         }
     }
 
+    if(document.getElementById('ListMenuFacet')){
+        d3.select(document.getElementById('ListMenuFacet')).remove()
+    }
+    if(document.getElementById('optionDeleteFacet')){
+    d3.select(document.getElementById('optionDeleteFacet')).remove()
+    }
+    if(document.getElementById('optionAddFacet')){
+    d3.select(document.getElementById('optionAddFacet')).remove()
+    }
+    if(document.getElementById('FacetMenuNotion')){
+      d3.select(document.getElementById('FacetMenuNotion')).remove()
+    }
+
     function DeleteFacet(i){
         console.log("This is really convenient!");
             const [prev, curr] = globalState.getValue().expandedFacetId.split(',');
@@ -138,9 +151,13 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
 
     function onSelectObject(){
         if (['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0){
-            if (document.getElementById('MenuNotion')){
+            if (document.getElementById('MenuNotion') && (['knowlege-forest'].indexOf(FacetMenuDisplay) >= 0)){
                 FacetMenuNotionLeft = document.getElementById('MenuNotion').getBoundingClientRect().left + 10
                 FacetMenuNotionTop = document.getElementById('MenuNotion').getBoundingClientRect().top + 5
+            }
+            if (['facet-tree'].indexOf(FacetMenuDisplay) >= 0){
+                FacetMenuNotionLeft = svg.getBoundingClientRect().left + 10
+                FacetMenuNotionTop = svg.getBoundingClientRect().top + 5
             }
             d3.select(document.getElementById('FacetMenuNotion'))
             .style("left", FacetMenuNotionLeft + 'px')
@@ -179,18 +196,7 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
         }
     }
 
-if(document.getElementById('ListMenuFacet')){
-    d3.select(document.getElementById('ListMenuFacet')).remove()
-}
-if(document.getElementById('optionDeleteFacet')){
-d3.select(document.getElementById('optionDeleteFacet')).remove()
-}
-if(document.getElementById('optionAddFacet')){
-d3.select(document.getElementById('optionAddFacet')).remove()
-}
-if(document.getElementById('FacetMenuNotion')){
-  d3.select(document.getElementById('FacetMenuNotion')).remove()
-    }
+
 
     if (!document.getElementById('ListMenuFacet') && ['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0 ) {
         d3.select('body').append('div')
@@ -253,7 +259,7 @@ if(document.getElementById('FacetMenuNotion')){
                 clickBranchAdd();
             });
     }
-    if (!document.getElementById('FacetMenuNotion') && ['knowledge-forest'].indexOf(FacetMenuDisplay) >= 0) {
+    if (!document.getElementById('FacetMenuNotion') && ['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0) {
         d3.select('body').append('div')
             .attr('id', 'FacetMenuNotion')
             .style('position', 'absolute')
