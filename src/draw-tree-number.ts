@@ -34,7 +34,7 @@ const optionSelectedShadow = '2px 3px 2px #888888';
 export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd, FacetMenuDisplay): void {
                 emptyChildren(svg);
                 const canvas = d3.select(svg);
-
+                console.log("话术了",clickFacet,clickBranch,clickBranchAdd,FacetMenuDisplay);
                 canvas
                 .on('click', function (){
                     if (['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0){
@@ -96,6 +96,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                         console.log("branchFacetId",globalState.getValue().branchFacetId);
                         console.log("expandedFacetId",globalState.getValue().expandedFacetId);
                         console.log("Use your FacetDelete function here!");
+                        clickBranch();
                 };
 
                 function checkCloseMenu(occasion) {
@@ -538,7 +539,7 @@ export function drawTreeNumber(svg, data, clickFacet,clickBranch,clickBranchAdd,
                     .data(treeData.leaves)
                     .enter()
                     .append('circle')
-                    .attr('cx', (d) => d.cx)
+                    .attr('cx', d => d.cx)
                     .attr('cy', d => d.cy)
                     .attr('r', (d, i) => {
                         return treeData.treeData[i].containChildrenFacet ? 0 : d.r * 1.5;

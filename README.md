@@ -2,9 +2,25 @@
 
 ## Input and output
 - Input: Hierarchical data of a topic
-![avatar](photos/inputData.png)
+
+drawTree函数中：
+1. `svg` 画树的svg
+2. `data` 画树的数据
+3. `FacetMenuDisplay` 是否弹出菜单及菜单内容
+4. `time` 动态画树间隔时间
+5. `alertFlag` 构建完成是否弹窗
+
+drawtreeNumber函数中：
+1. `svg` 画树的svg
+2. `data` 画树的数据
+3. `FacetMenuDisplay` 是否弹出菜单及菜单内容
+
+
+画树数据如下：
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0511/191449_588c770b_8849316.png "屏幕截图.png")
 - Output: Data is visualized as a faceted tree
-![avatar](photos/facetTree.png)
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0511/191533_7569af5f_8849316.png "屏幕截图.png")
 
 ## Build
 `npm run pack` 打包结果在 `/module/facetTree.js`
@@ -35,6 +51,9 @@
 12. `branchWidthRate`
 13. `firstLayerThreshold`
 14. `secondLayerThreshold`
+15. `FacetMenuDisplay` 是否弹出菜单及菜单内容
+16. `time` 动态画树间隔时间
+17. `alertFlag` 构建完成是否弹窗
 
 - 函数
 

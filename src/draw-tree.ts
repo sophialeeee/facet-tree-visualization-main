@@ -7,6 +7,9 @@ import { drawFacetPieChart } from './facet-pie-chart';
 import { drawFacetForceLayout } from './facet-force-layout';
 import { globalState, globalData } from './state';
 import { emptyChildren } from './tools/utils';
+import {message} from 'antd';
+// import {Message} from "element-ui";
+
 declare global {
     interface Window {
       lock: boolean
@@ -36,7 +39,7 @@ function appendData(totalData,data,i){
 }
 
 
-export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, FacetMenuDisplay, time): void {
+export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, FacetMenuDisplay, time ,alertFlag): void {
     
     let totalData={};
    
@@ -75,6 +78,19 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
             FacetMenuNotionLeft = document.getElementById('MenuNotion').getBoundingClientRect().left
             FacetMenuNotionTop = document.getElementById('MenuNotion').getBoundingClientRect().top
         }
+    }
+
+    if(document.getElementById('ListMenuFacet')){
+        d3.select(document.getElementById('ListMenuFacet')).remove()
+    }
+    if(document.getElementById('optionDeleteFacet')){
+    d3.select(document.getElementById('optionDeleteFacet')).remove()
+    }
+    if(document.getElementById('optionAddFacet')){
+    d3.select(document.getElementById('optionAddFacet')).remove()
+    }
+    if(document.getElementById('FacetMenuNotion')){
+      d3.select(document.getElementById('FacetMenuNotion')).remove()
     }
 
     function DeleteFacet(i){
@@ -135,9 +151,13 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
 
     function onSelectObject(){
         if (['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0){
-            if (document.getElementById('MenuNotion')){
+            if (document.getElementById('MenuNotion') && (['knowlege-forest'].indexOf(FacetMenuDisplay) >= 0)){
                 FacetMenuNotionLeft = document.getElementById('MenuNotion').getBoundingClientRect().left + 10
                 FacetMenuNotionTop = document.getElementById('MenuNotion').getBoundingClientRect().top + 5
+            }
+            if (['facet-tree'].indexOf(FacetMenuDisplay) >= 0){
+                FacetMenuNotionLeft = svg.getBoundingClientRect().left + 10
+                FacetMenuNotionTop = svg.getBoundingClientRect().top + 5
             }
             d3.select(document.getElementById('FacetMenuNotion'))
             .style("left", FacetMenuNotionLeft + 'px')
@@ -176,18 +196,7 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
         }
     }
 
-    if (document.getElementById('ListMenuFacet')){
-            d3.select(document.getElementById('ListMenuFacet')).remove()
-    }
-    if (document.getElementById('optionDeleteFacet')){
-        d3.select(document.getElementById('optionDeleteFacet')).remove()
-    }
-    if (document.getElementById('optionAddFacet')){
-        d3.select(document.getElementById('optionAddFacet')).remove()
-    }
-    if (document.getElementById('FacetMenuNotion')){
-            d3.select(document.getElementById('FacetMenuNotion')).remove()
-    }
+
 
     if (!document.getElementById('ListMenuFacet') && ['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0 ) {
         d3.select('body').append('div')
@@ -250,7 +259,7 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
                 clickBranchAdd();
             });
     }
-    if (!document.getElementById('FacetMenuNotion') && ['knowledge-forest'].indexOf(FacetMenuDisplay) >= 0) {
+    if (!document.getElementById('FacetMenuNotion') && ['knowledge-forest', 'facet-tree'].indexOf(FacetMenuDisplay) >= 0) {
         d3.select('body').append('div')
             .attr('id', 'FacetMenuNotion')
             .style('position', 'absolute')
@@ -624,9 +633,24 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
 
                   
 
-                if (i+1===data["children"].length){
+                if (i+1===data["children"].length&&alertFlag ===true){
+
                     setTimeout(()=>{
-                        alert('当前页面构建完成！');
+                        alert('当前页面构建完成！')
+                        // message.config({
+                        //     duration: 2,
+                        // });
+                        // message.success('当前页面构建完成！',2)
+                        window.lock = false;
+                    },100)
+                }
+                else if (i+1===data["children"].length&&alertFlag ===false){
+                    setTimeout(()=>{
+                        // alert('当前页面构建完成！')
+                        // message.config({
+                        //     duration: 2,
+                        // });
+                        // message.success('当前页面构建完成！',2)
                         window.lock = false;
                     },100)
                 }
