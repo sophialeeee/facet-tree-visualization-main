@@ -669,11 +669,14 @@ export function drawTree(svg, data, clickFacet,clickBranch,clickBranchAdd, Facet
 
 export function judgementStringLengthWithChinese(str: string): number {
     let result = 0;
-    for (let i = 0; i < str.length; i++) {
+    for (let i = 0; i < str.length; i++) {    
         if (/[a-z0-9\*\\\|\(\)\&\^\%\$\#\@\!\,\.\?\<\>\/]/.test(str[i])) {
-            result += 0.5;
-        } else {
-            result += 1;
-        }
+        result += 1/3;
+    }else if (/[A-Z]/.test(str[i])){
+        result += 0.5;
     }
+     else {
+        result += 1;
+    }
+}
     return result;}

@@ -483,7 +483,7 @@ export function buildTree(data: TreeData, dom: HTMLElement): Tree {
         }
         // 生成text
         result.texts.push({
-            x: result.branches[i].x + facetWidth / 2 - fontSize / 4,
+            x: result.branches[i].x + facetWidth / 2 - fontSize / 4 - 3,
             y: result.branches[i].y + 8,
             text: result.branches[i].facetName,
             fontSize
